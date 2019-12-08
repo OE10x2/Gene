@@ -1,34 +1,43 @@
+/*
+Name: Ethan Zhang
+Course: ICS4U1-01
+Teacher: Mr. Radulovic
+Date Finished: December 8, 2019
+Assignment: ADT-Gene Assignment
+
+Description:
+This class creates an ADT called ArrayList. This data structure can store any specified type.
+The default size is set to 20001 since there are a maximum of 20000 genes.
+Note that every operation in ArrayList takes O(1) time complexity.
+*/
 public class ArrayList<T>{
-    private int size = 1;
-    private int length = 0;
+    private int size = 20001; //Default size
+    private int length = 0; //Tracks the actual length of the ArrayList
+    private int fix = 0;
     private Node<T>[] array = new Node[size];
 
-    public void create(){
-        size *= 2; //Double the size of the array whenever the length is not enough
-        Node<T>[] newArray = new Node[size];
-        for (int i = 0; i < length; i++) newArray[i] = array[i];
-        array = newArray;
-    }
-
     public void addNode(T n){
-        if (length >= size) create();
-        array[length++] = new Node<>(n);
+        array[fix + length++] = new Node<>(n); //Convert n into a Node
     }
 
-    public void removeNode(int i){
-        for (int loop = i; loop < length - 1; loop++) array[loop] = array[loop + 1];
+    public void removeFront(){
+        //Removes the first element in the ArrayList
+        fix++;
         length = Math.max(length - 1, 0);
     }
 
     public void replaceNode(T n, int i){
-        array[i] = new Node<>(n);
+        //Change the value of the Node
+        array[i + fix] = new Node<>(n);
     }
 
     public T getNode(int i){
-        return array[i].getValue();
+        //Returns the value at the given index
+        return array[i + fix].getValue();
     }
 
     public int size(){
+        //Returns the length of the ArrayList
         return length;
     }
 }
