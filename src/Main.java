@@ -19,7 +19,7 @@ public class Main{
     private ArrayList<Boolean> vis = new ArrayList<>();
     private double R1 = 0.02, R2 = 0.06, R3 = 0.08; //The probability that each rule takes place.
     public static void main(String[] args) throws Exception{
-        Scanner scan = new Scanner(new File("Test.txt"));
+        Scanner scan = new Scanner(new File("Test3.txt"));
         Main CLASS = new Main(); //Used to access the methods in this class
         int L = Integer.parseInt(scan.nextLine());
         int V = Integer.parseInt(scan.nextLine());
@@ -30,7 +30,6 @@ public class Main{
             CLASS.vis.addNode(false); //For each gene initialized, set the visited boolean to false.
         }
         CLASS.SORT(0, V + D); //Merge Sort the genes; prepare for binary search later on
-        /*DEBUG*/ long START = System.nanoTime();
         int M = Integer.parseInt(scan.nextLine());
         int G = Integer.parseInt(scan.nextLine());
         for (int i = 0; i < G; i++){
@@ -41,9 +40,6 @@ public class Main{
             double ans = CLASS.BFS(P, Q, M);
             System.out.println(ans == -1 ? "NO" : "YES\n" + ans);
         }
-        /*DEBUG*/ long END = System.nanoTime();
-        /*DEBUG*/ System.out.println("*********************************************");
-        /*DEBUG*/ System.out.println("TIME: " + (END - START) / 1e9);
     }
 
     public double BFS(String start, String end, int M){
@@ -61,27 +57,14 @@ public class Main{
             //Since every rule used after requires one more step, we skip as soon as the number of steps reaches M.
             if (cur.z >= M) continue;
             //RULE 1
-            if (cur.x.length() >= 3){
-                String swapped = cur.x.substring(1, cur.x.length() - 1);
-                swapped = cur.x.charAt(cur.x.length() - 1) + swapped + cur.x.charAt(0);
-                //If the modified gene exists, add to the queue
-                int found = BS(swapped);
-                if (found != -1 && !vis.getNode(found)){
-                    q.enqueue(new Triple(swapped, cur.y * R1, cur.z + 1));
-                    vis.replaceNode(true, found); //Mark as visited
-                }
-            }else if (cur.x.length() == 2){
-                //In this case, the length of the gene is exactly 2. We cannot call the substring between
-                //1 and length of the gene minus 1 (inclusive). Thus, this case must be handled separately.
-                String swapped = cur.x.charAt(0) + cur.x.substring(1);
-                int found = BS(swapped);
-                if (found != -1 && !vis.getNode(found)){
-                    q.enqueue(new Triple(swapped, cur.y * R1, cur.z + 1));
-                    vis.replaceNode(true, found); //Mark as visited
-                }
+            String swapped = cur.x.substring(1, cur.x.length() - 1);
+            swapped = cur.x.charAt(cur.x.length() - 1) + swapped + cur.x.charAt(0);
+            //If the modified gene exists, add to the queue
+            int found = BS(swapped);
+            if (found != -1 && !vis.getNode(found)){
+                q.enqueue(new Triple(swapped, cur.y * R1, cur.z + 1));
+                vis.replaceNode(true, found); //Mark as visited
             }
-            //Otherwise, the length of the gene is 1. Reversing the gene yields the same gene.
-            //As a result, we skip rule 1 when the length is 1.
             //RULE 2
             for (int i = 0; i < cur.x.length() - 1; i++){
                 if (cur.x.charAt(i) != cur.x.charAt(i + 1)) continue; //Consecutive letters must match
