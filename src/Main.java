@@ -46,15 +46,15 @@ public class Main{
 
     public double BFS(String start, String end, int M){
         //This function runs BFS on the genes to answer the given queries.
-        Queue<Triple> q = new Queue<>();
+        Queue<Gene> q = new Queue<>();
         //Default probability is 1 and default # steps is 0.
-        q.enqueue(new Triple(start, 1, 0));
+        q.enqueue(new Gene(start, 1, 0));
         //First, we mark the starting gene as "visited", so a cycle does not occur later on.
         int firstIndex = BS(start);
         vis.replaceNode(true, firstIndex);
         while (!q.isEmpty()){
             //Get the top-most element
-            Triple cur = q.dequeue();
+            Gene cur = q.dequeue();
             //If number of mutations exceeds limit
             if (cur.x.equals(end)) return cur.y; //Found valid answer; update final answer
             //Since every rule used after requires one more step, we skip as soon as the number of steps reaches M.
@@ -65,7 +65,7 @@ public class Main{
             //If the modified gene exists, add to the queue
             int found = BS(swapped);
             if (found != -1 && !vis.getNode(found)){
-                q.enqueue(new Triple(swapped, cur.y * R1, cur.z + 1));
+                q.enqueue(new Gene(swapped, cur.y * R1, cur.z + 1));
                 vis.replaceNode(true, found); //Mark as visited
             }
             //RULE 2
@@ -83,7 +83,7 @@ public class Main{
                     if (findGene != -1 && !vis.getNode(findGene)){
                         vis.replaceNode(true, findGene);
                         //Add to queue if it satisfies all conditions
-                        q.enqueue(new Triple(newGene, cur.y * R2, cur.z + 1));
+                        q.enqueue(new Gene(newGene, cur.y * R2, cur.z + 1));
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class Main{
                     if (findGene != -1 && !vis.getNode(findGene)){
                         vis.replaceNode(true, findGene);
                         //Add to queue if it satisfies all conditions
-                        q.enqueue(new Triple(newGene, cur.y * R3, cur.z + 1));
+                        q.enqueue(new Gene(newGene, cur.y * R3, cur.z + 1));
                     }
                 }
             }

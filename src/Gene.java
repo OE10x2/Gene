@@ -11,13 +11,13 @@ This class is used to store genes. The three essential information about genes a
 2) The probability required to reach this gene
 3) The number of steps taken to reach this gene
 */
-public class Triple{
+public class Gene{
     //After making the variables public, we can directly change the values instead of writing getters/setters.
-    public String x;
-    public double y;
-    public int z;
+    public String x; //Gene string
+    public double y; //Probability
+    public int z; //Number of steps taken
 
-    public Triple(String x, double y, int z){
+    public Gene(String x, double y, int z){
         //Sets the values of Triple
         this.x = x;
         this.y = y;
