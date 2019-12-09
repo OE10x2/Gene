@@ -17,9 +17,10 @@ import java.util.Scanner;
 public class Main{
     private ArrayList<String> genes = new ArrayList<>();
     private ArrayList<Boolean> vis = new ArrayList<>();
+    private char[] options = {'A', 'C', 'G', 'T'};
     private double R1 = 0.02, R2 = 0.06, R3 = 0.08; //The probability that each rule takes place.
     public static void main(String[] args) throws Exception{
-        Scanner scan = new Scanner(new File("Test3.txt"));
+        Scanner scan = new Scanner(new File("Test.txt"));
         Main CLASS = new Main(); //Used to access the methods in this class
         int L = Integer.parseInt(scan.nextLine());
         int V = Integer.parseInt(scan.nextLine());
@@ -70,33 +71,18 @@ public class Main{
                 if (cur.x.charAt(i) != cur.x.charAt(i + 1)) continue; //Consecutive letters must match
                 String beginning = cur.x.substring(0, i), ending = cur.x.substring(i + 2);
                 //Following rule 2, we replace identical consecutive elements with one element.
-                String addA = beginning + "A" + ending;
-                String addC = beginning + "C" + ending;
-                String addG = beginning + "G" + ending;
-                String addT = beginning + "T" + ending;
-                //Check if the newly created gene exists; binary search
-                int findA = BS(addA);
-                int findC = BS(addC);
-                int findG = BS(addG);
-                int findT = BS(addT);
-                //Note that for each new string created, we must check if:
-                //1) The created string exists,
-                //2) We have not visited this gene.
-                if (findA != -1 && !vis.getNode(findA)){
-                    vis.replaceNode(true, findA);
-                    q.enqueue(new Triple(addA, cur.y * R2, cur.z + 1));
-                }
-                if (findC != -1 && !vis.getNode(findC)){
-                    vis.replaceNode(true, findC);
-                    q.enqueue(new Triple(addC, cur.y * R2, cur.z + 1));
-                }
-                if (findG != -1 && !vis.getNode(findG)){
-                    vis.replaceNode(true, findG);
-                    q.enqueue(new Triple(addG, cur.y * R2, cur.z + 1));
-                }
-                if (findT != -1 && !vis.getNode(findT)){
-                    vis.replaceNode(true, findT);
-                    q.enqueue(new Triple(addT, cur.y * R2, cur.z + 1));
+                for (char c: options){ //'A', 'C', 'G', 'T'
+                    String newGene = beginning + c + ending;
+                    //Check if the newly created gene exists; binary search
+                    int findGene = BS(newGene);
+                    //Note that for each new gene created, we must check if:
+                    //1) The created string exists,
+                    //2) We have not visited this gene.
+                    if (findGene != -1 && !vis.getNode(findGene)){
+                        vis.replaceNode(true, findGene);
+                        //Add to queue if it satisfies all conditions
+                        q.enqueue(new Triple(newGene, cur.y * R2, cur.z + 1));
+                    }
                 }
             }
             //RULE 3
@@ -107,33 +93,18 @@ public class Main{
                 String beginning = cur.x.substring(0, i + 1), ending = cur.x.substring(i + 1);
                 //If the gene contains "G" and "T" next to each other, add on all the possible
                 //genes that follow rule 3. (Insert singular gene in between "GT" or "TG")
-                String addA = beginning + "A" + ending;
-                String addC = beginning + "C" + ending;
-                String addG = beginning + "G" + ending;
-                String addT = beginning + "T" + ending;
-                //Check if the newly created gene exists; binary search
-                int findA = BS(addA);
-                int findC = BS(addC);
-                int findG = BS(addG);
-                int findT = BS(addT);
-                //Note that for each new string created, we must check if:
-                //1) The created string exists,
-                //2) We have not visited this gene.
-                if (findA != -1 && !vis.getNode(findA)){
-                    vis.replaceNode(true, findA);
-                    q.enqueue(new Triple(addA, cur.y * R3, cur.z + 1));
-                }
-                if (findC != -1 && !vis.getNode(findC)){
-                    vis.replaceNode(true, findC);
-                    q.enqueue(new Triple(addC, cur.y * R3, cur.z + 1));
-                }
-                if (findG != -1 && !vis.getNode(findG)){
-                    vis.replaceNode(true, findG);
-                    q.enqueue(new Triple(addG, cur.y * R3, cur.z + 1));
-                }
-                if (findT != -1 && !vis.getNode(findT)){
-                    vis.replaceNode(true, findT);
-                    q.enqueue(new Triple(addT, cur.y * R3, cur.z + 1));
+                for (char c: options){ //'A', 'C', 'G', 'T'
+                    String newGene = beginning + c + ending;
+                    //Check if the newly created gene exists; binary search
+                    int findGene = BS(newGene);
+                    //Note that for each new gene created, we must check if:
+                    //1) The created string exists,
+                    //2) We have not visited this gene.
+                    if (findGene != -1 && !vis.getNode(findGene)){
+                        vis.replaceNode(true, findGene);
+                        //Add to queue if it satisfies all conditions
+                        q.enqueue(new Triple(newGene, cur.y * R3, cur.z + 1));
+                    }
                 }
             }
         }
