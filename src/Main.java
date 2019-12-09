@@ -19,6 +19,7 @@ public class Main{
     private ArrayList<Boolean> vis = new ArrayList<>();
     private char[] options = {'A', 'C', 'G', 'T'};
     private double R1 = 0.02, R2 = 0.06, R3 = 0.08; //The probability that each rule takes place.
+
     public static void main(String[] args) throws Exception{
         Scanner scan = new Scanner(new File("TYPE TEST FILE PATH HERE"));
         Main CLASS = new Main(); //Used to access the methods in this class
@@ -44,6 +45,7 @@ public class Main{
     }
 
     public double BFS(String start, String end, int M){
+        //This function runs BFS on the genes to answer the given queries.
         Queue<Triple> q = new Queue<>();
         //Default probability is 1 and default # steps is 0.
         q.enqueue(new Triple(start, 1, 0));
@@ -112,16 +114,17 @@ public class Main{
     }
 
     private void SORT(int start, int end){
-        //Merge Sort
+        //This function acts as a Merge Sort.
         if (end - start > 1){
             int middle = (start + end) / 2;
             SORT(start, middle); //Sort the first half
             SORT(middle, end); //Sort the second half
-            CombineList(start, end);
+            CombineList(start, end); //Sort the entire section
         }
     }
 
     private void CombineList(int start, int end){
+        //This function takes in a range of a list, then sorts this section.
         int middle = (start + end) / 2, pointX = start, pointY = middle;
         ArrayList<String> array = new ArrayList<>();
         while (pointX < middle && pointY < end){
@@ -144,6 +147,7 @@ public class Main{
     }
 
     private int BS(String s){
+        //This function takes in a string, and does a binary search inside the gene list.
         int l = 0, r = genes.size() - 1;
         while (l <= r){
             //Keep on narrowing down the search range
