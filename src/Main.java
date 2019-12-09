@@ -20,7 +20,7 @@ public class Main{
     private char[] options = {'A', 'C', 'G', 'T'};
     private double R1 = 0.02, R2 = 0.06, R3 = 0.08; //The probability that each rule takes place.
     public static void main(String[] args) throws Exception{
-        Scanner scan = new Scanner(new File("Test.txt"));
+        Scanner scan = new Scanner(new File("TYPE TEST FILE PATH HERE"));
         Main CLASS = new Main(); //Used to access the methods in this class
         int L = Integer.parseInt(scan.nextLine());
         int V = Integer.parseInt(scan.nextLine());
