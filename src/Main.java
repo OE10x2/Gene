@@ -61,6 +61,7 @@ public class Main{
             if (cur.z >= M) continue;
             //RULE 1
             String swapped = cur.x.substring(1, cur.x.length() - 1);
+            //Take the substring excluding the first and last characters, then switch the order
             swapped = cur.x.charAt(cur.x.length() - 1) + swapped + cur.x.charAt(0);
             //If the modified gene exists, add to the queue
             int found = BS(swapped);
